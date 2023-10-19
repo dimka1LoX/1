@@ -1,8 +1,0 @@
-№1
-```sql
-SELECT c.first_name, c.last_name, c.email FROM customers c
-JOIN orders o ON o.customer_id = c.customer_id
-GROUP BY c.customer_id, o.order_date
-HAVING COUNT(c.customer_id) >= 2 AND o.order_date BETWEEN '2023-07-17' AND '2023-10-17';
-```
-![image]
