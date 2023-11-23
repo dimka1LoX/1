@@ -1,0 +1,98 @@
+create table Users ( id bigint primary key, login varchar(16), password text );
+create table roles ( id bigint primary key, title text );
+create table card ( id bigint primary key, user_id int, card_number varchar(16), constraint fk_users_user_id foreign key (user_id) references users (id) );
+create table family_t ( id bigint primary key, card_id int, name text, constraint fk_card_card_id foreign key (card_id) references card (id)  );
+create table driver ( id bigint primary key, name text, lastname text, experience float);
+create table passenger ( id bigint primary key, name text, lastname text);
+create table orders ( id bigint primary key, driver_id int, passenger_id int, dates date, price float, constraint fk_driver_driver_id foreign key (driver_id) references driver (id),constraint fk_passenger_passenger_id foreign key (passenger_id) references passenger (id) );
+create table profile ( id bigint primary key, login_id int, number varchar(11),imail varchar(64),rating float, order_id int,roles text, constraint fk_users_login_id foreign key (login_id) references users (id),constraint fk_orders_order_id foreign key (order_id) references orders (id));
+
+
+insert into users values (1, 'sadsadsw','az0a9z0az9az0');
+insert into users values (2, 'qwesd','qweqwes');
+insert into users values (3, 'gfjtyj','sadasf');
+insert into users values (4, 'gdfgfdg','ertergfd');
+insert into users values (5, 'rieowhfu','sadaxuwqye');
+insert into users values (6, 'qwefhrewf','ihcbuytauisd');
+insert into users values (7, 'qwesad','jtrybfdvdf');
+insert into users values (8, 'ghjtryr','dsafrehg');
+insert into users values (9, 'aewqdxz','qwdaghjtr');
+insert into users values (10, 'tykjgfdv','jtrgbvedsv');
+insert into users values (11, 'htyjdfd','asadgregreg');
+insert into users values (12, 'sqwdverger','trjdsqry');
+insert into users values (13, 'sastrevsadf','treuhrfds');
+insert into users values (14, 'ewfbkchvbwy','erhgerfhbw');
+insert into users values (15, 'ferfwefsd','qwrfdgdfvsx');
+
+
+insert into roles values (1, 'passenger');
+insert into roles values (2, 'passenger');
+insert into roles values (3, 'driver');
+insert into roles values (4, 'passenger');
+insert into roles values (5, 'driver');
+insert into roles values (6, 'driver');
+insert into roles values (7, 'passenger');
+insert into roles values (8, 'driver');
+insert into roles values (9, 'passenger');
+insert into roles values (10, 'passenger');
+insert into roles values (11, 'driver');
+insert into roles values (12, 'passenger');
+insert into roles values (13, 'passenger');
+insert into roles values (14, 'passenger');
+insert into roles values (15, 'passenger');
+
+
+insert into card values (1,1, 6973652904678254);
+insert into card values (2,2, 5465475466435435);
+insert into card values (3,3, 6578564354234654);
+insert into card values (4,4, 2132355775697675);
+insert into card values (5,5, 3890735823748594);
+insert into card values (6,6, 5766592343268678);
+insert into card values (7,7, 1239017584369021);
+insert into card values (8,8, 0912748976578923);
+insert into card values (9,9, 3475897409175896);
+insert into card values (10,10, 9217391246783648);
+insert into card values (11,11, 0346782358436712);
+insert into card values (12,12, 4357976234365486);
+insert into card values (13,13, 9657435237569546);
+insert into card values (14,14, 1253458756951344);
+insert into card values (15,15, 1242355488754523);
+
+
+insert into family_t values (1,1, 'family');
+insert into family_t values (2,2, 'standart');
+insert into family_t values (3,3, 'driver');
+insert into family_t values (4,4, 'family');
+insert into family_t values (5,5, 'driver');
+insert into family_t values (6,6, 'driver');
+insert into family_t values (7,7, 'family');
+insert into family_t values (8,8, 'driver');
+insert into family_t values (9,9, 'standart');
+insert into family_t values (10,10, 'standart');
+insert into family_t values (11,11, 'driver');
+insert into family_t values (12,12, 'family');
+insert into family_t values (13,13, 'standart');
+insert into family_t values (14,14, 'standart');
+insert into family_t values (15,15, 'standart');
+
+
+
+insert into driver values (3, 'Anton','Marchenko', 2);
+insert into driver values (5, 'Kirill','Manaskurt',5);
+insert into driver values (6, 'Ivan','Gigurda', 4);
+insert into driver values (8, 'Artem','Mitrakov', 3);
+insert into driver values (11, 'Maksim','Pervynin',20);
+
+
+insert into roles values (1, 'passenger');
+insert into roles values (2, 'passenger');
+insert into roles values (4, 'passenger');
+insert into roles values (7, 'passenger');
+insert into roles values (9, 'passenger');
+insert into roles values (10, 'passenger');
+insert into roles values (12, 'passenger');
+insert into roles values (13, 'passenger');
+insert into roles values (14, 'passenger');
+insert into roles values (15, 'passenger');
+
+
