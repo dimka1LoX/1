@@ -84,15 +84,94 @@ insert into driver values (8, 'Artem','Mitrakov', 3);
 insert into driver values (11, 'Maksim','Pervynin',20);
 
 
-insert into roles values (1, 'passenger');
-insert into roles values (2, 'passenger');
-insert into roles values (4, 'passenger');
-insert into roles values (7, 'passenger');
-insert into roles values (9, 'passenger');
-insert into roles values (10, 'passenger');
-insert into roles values (12, 'passenger');
-insert into roles values (13, 'passenger');
-insert into roles values (14, 'passenger');
-insert into roles values (15, 'passenger');
+insert into passenger values (1, 'passenger');
+insert into passenger values (2, 'passenger');
+insert into passenger values (4, 'passenger');
+insert into passenger values (7, 'passenger');
+insert into passenger values (9, 'passenger');
+insert into passenger values (10, 'passenger');
+insert into passenger values (12, 'passenger');
+insert into passenger values (13, 'passenger');
+insert into passenger values (14, 'passenger');
+insert into passenger values (15, 'passenger');
+
+
+insert into orders values (1,6,1,'10-10-23',413);
+insert into orders values (2,3,2,'26-10-23',732);
+insert into orders values (3,8,4,'20-10-23',310);
+insert into orders values (4,11,7,'13-11-23',892);
+insert into orders values (5,5,10,'16-11-23',369);
+insert into orders values (6,6,12,'03-12-23',832);
+insert into orders values (7,5,13,'06-12-23',684);
+insert into orders values (8,11,14,'08-07-23',785);
+insert into orders values (9,8,15,'10-09-23',543);
+insert into orders values (10,3,10,'15-08-23',653);
+insert into orders values (11,8,7,'26-09-23',342);
+
+
+insert into profile values (1,1,89139009106,'sadr1@mail.ru',4.6,1,'passenger');
+insert into profile values (2,2,89139034206,'ssadqqwef@mail.ru',3.6,2,'passenger');
+insert into profile values (3,3,89123124356,'dfhsfasw@mail.ru',4.3,2,'driver');
+insert into profile values (4,3,89123124356,'dfhsfasw@mail.ru',4.3,10,'driver');
+insert into profile values (5,4,89243623542,'dfgsfsafre@mail.ru',3.1,3,'passenger');
+insert into profile values (6,5,89423453753,'hgsfasdqw@mail.ru',5.0,5,'driver');
+insert into profile values (7,5,89423453753,'hgsfasdqw@mail.ru',5.0,7,'driver');
+insert into profile values (8,6,82132543656,'sdgadarre@mail.ru',2.8,1,'driver');
+insert into profile values (9,6,82132543656,'sdgadarre@mail.ru',2.8,6,'driver');
+insert into profile values (10,7,8934235263,'sdfsfas@mail.ru',3.6,4,'passenger');
+insert into profile values (11,7,8934235263,'sdfsfas@mail.ru',3.6,11,'passenger');
+insert into profile values (12,8,8975656435,'dhjdgsdf@mail.ru',3.8,3,'driver');
+insert into profile values (13,8,8975656435,'dhjdgsdf@mail.ru',3.8,9,'driver');
+insert into profile values (14,8,8975656435,'dhjdgsdf@mail.ru',3.8,11,'driver');
+insert into profile values (15,9,83523412123,'sdgdfhw@mail.ru',3.1,6,'passenger');
+insert into profile values (16,10,8546547436,'safwtew2@mail.ru',2.9,5,'passenger');
+insert into profile values (17,10,8546547436,'safwtew2@mail.ru',2.9,10,'passenger');
+insert into profile values (18,11,8946456643,'dhdsfawfsd@mail.ru',4.8,4,'driver');
+insert into profile values (19,11,8946456643,'dhdsfawfsd@mail.ru',4.8,8,'driver');
+insert into profile values (20,12,8965643512,'safsgew@mail.ru',3.2,6,'passenger');
+insert into profile values (21,13,8913545406,'gdh3wef1@mail.ru',2.6,7,'passenger');
+insert into profile values (22,14,8435435436,'dsgdhfasd@mail.ru',3.7,8,'passenger');
+insert into profile values (23,15,8956734532,'ghsdfdf@mail.ru',4.1,9,'passenger');
+
+
+Чтобы создать триггер, который автоматически срабатывает при вставке новой записи в таблицу Users, вы можете использовать следующий SQL-запрос:
+CREATE OR REPLACE FUNCTION validate_password()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF LENGTH(NEW.password) < 8 THEN
+        RAISE EXCEPTION 'Password length must be at least 8 characters';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_password
+BEFORE INSERT OR UPDATE ON Users
+FOR EACH ROW
+EXECUTE FUNCTION validate_password();
+Этот триггер проверяет длину пароля при вставке новой записи в таблицу Users. Если длина пароля меньше 8 символов, будет сгенерировано исключение. Вы можете настроить условия в триггере в соответствии с вашими требованиями.
+
+
+
+
+Чтобы создать триггер для таблицы roles, который будет выполнять определенные действия при вставке или обновлении записей, вы можете использовать следующий SQL-запрос:
+CREATE OR REPLACE FUNCTION check_role_title()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.title NOT IN ('passenger', 'driver') THEN
+        RAISE EXCEPTION 'Invalid role title. Allowed values are "passenger" or "driver".';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER validate_role_title
+BEFORE INSERT OR UPDATE ON roles
+FOR EACH ROW
+EXECUTE FUNCTION check_role_title();
+Этот триггер проверяет, что значение столбца title в таблице roles соответствует допустимым ролям ("passenger" или "driver"). Если вставляемое или обновляемое значение не соответствует этим ролям, будет сгенерировано исключение. Вы можете настроить условия в триггере в соответствии с вашими требованиями.
+
+
+
 
 
