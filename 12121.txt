@@ -77,23 +77,23 @@ insert into family_t values (15,15, 'standart');
 
 
 
-insert into driver values (3, 'Anton','Marchenko', 2);
-insert into driver values (5, 'Kirill','Manaskurt',5);
-insert into driver values (6, 'Ivan','Gigurda', 4);
-insert into driver values (8, 'Artem','Mitrakov', 3);
-insert into driver values (11, 'Maksim','Pervynin',20);
+insert into driver values (3, 'Антон','Марченко', 2);
+insert into driver values (5, 'Кирилл','Манаскурт',5);
+insert into driver values (6, 'Иван','Джигурда', 4);
+insert into driver values (8, 'Артем','Митраков', 3);
+insert into driver values (11, 'Максим','Первунин',20);
 
 
-insert into passenger values (1, 'passenger');
-insert into passenger values (2, 'passenger');
-insert into passenger values (4, 'passenger');
-insert into passenger values (7, 'passenger');
-insert into passenger values (9, 'passenger');
-insert into passenger values (10, 'passenger');
-insert into passenger values (12, 'passenger');
-insert into passenger values (13, 'passenger');
-insert into passenger values (14, 'passenger');
-insert into passenger values (15, 'passenger');
+insert into passenger values (1, 'Дмитрий','Гуров');
+insert into passenger values (2, 'Давид','Килин');
+insert into passenger values (4, 'Савелий','Прохоров');
+insert into passenger values (7, 'Виталий','Степин');
+insert into passenger values (9, 'Иван','Алешкин');
+insert into passenger values (10, 'Ксения','Киселёва');
+insert into passenger values (12, 'Матвей','Мельников');
+insert into passenger values (13, 'Петр','Прощенко');
+insert into passenger values (14, 'Даниил','Устинов');
+insert into passenger values (15, 'Сергей','Шаталов');
 
 
 insert into orders values (1,6,1,'10-10-23',413);
@@ -134,7 +134,7 @@ insert into profile values (22,14,8435435436,'dsgdhfasd@mail.ru',3.7,8,'passenge
 insert into profile values (23,15,8956734532,'ghsdfdf@mail.ru',4.1,9,'passenger');
 
 
-Чтобы создать триггер, который автоматически срабатывает при вставке новой записи в таблицу Users, вы можете использовать следующий SQL-запрос:
+
 CREATE OR REPLACE FUNCTION validate_password()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -154,7 +154,6 @@ EXECUTE FUNCTION validate_password();
 
 
 
-Чтобы создать триггер для таблицы roles, который будет выполнять определенные действия при вставке или обновлении записей, вы можете использовать следующий SQL-запрос:
 CREATE OR REPLACE FUNCTION check_role_title()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -174,4 +173,18 @@ EXECUTE FUNCTION check_role_title();
 
 
 
+CREATE OR REPLACE FUNCTION check_card_number()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF LENGTH(NEW.card_number) <> 16 THEN
+        RAISE EXCEPTION 'Invalid card number length. Card number must be 16 digits.';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
+CREATE TRIGGER validate_card_number
+BEFORE INSERT OR UPDATE ON card
+FOR EACH ROW
+EXECUTE FUNCTION check_card_number();
+Этот триггер проверяет, что значение столбца card_number в таблице card содержит ровно 16 цифр. Если длина номера карты не соответствует этому требованию при вставке или обновлении записи, будет сгенерировано исключение. Вы можете настроить условия в триггере в соответствии с вашими требованиями.
